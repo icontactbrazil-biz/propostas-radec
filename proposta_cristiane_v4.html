@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório de Regularização — Cristiane R. de Oliveira</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --azul:      #1e3a5f;
+    --azul-md:   #2a5298;
+    --azul-bg:   #eef4fb;
+    --texto:     #1a1a1a;
+    --sec:       #555;
+    --borda:     #dde3ed;
+    --fundo:     #f7f8fa;
+    --alerta:    #c0392b;
+    --alerta-bg: #fdf2f1;
+    --alerta-borda: #f0b8b3;
+    --amber:     #7a4f1d;
+    --amber-bg:  #fdf3e3;
+    --amber-borda: #e8cfa0;
+    --ok:        #1a6b3c;
+    --ok-bg:     #eaf5ee;
+    --ok-borda:  #a8d5b8;
+    --cinza-bg:  #f0f1f3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--fundo);
+    color: var(--texto);
+    font-size: 14px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 780px; margin: 0 auto; padding: 48px 36px 80px; }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding-bottom: 20px; border-bottom: 2px solid var(--azul); margin-bottom: 32px;
+  }
+  .brand     { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--azul); }
+  .brand-sub { font-size: 12px; color: var(--sec); margin-top: 3px; font-weight: 300; }
+  .doc-meta  { text-align: right; font-size: 12px; color: var(--sec); }
+  .doc-meta strong { display: block; font-size: 13px; color: var(--texto); font-weight: 500; }
+
+  /* ── CLIENTE ── */
+  .cliente {
+    border: 1px solid var(--borda); border-left: 4px solid var(--azul);
+    border-radius: 8px; padding: 16px 20px; margin-bottom: 28px;
+    background: white;
+  }
+  .cliente-nome { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--azul); }
+  .cliente-sub  { font-size: 12px; color: var(--sec); margin-top: 3px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .tag { font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: 20px; }
+  .tag-ok    { background: var(--ok-bg); color: var(--ok); }
+  .tag-warn  { background: var(--amber-bg); color: var(--amber); }
+  .tag-alert { background: var(--alerta-bg); color: var(--alerta); }
+  .tag-blue  { background: var(--azul-bg); color: var(--azul-md); }
+
+  /* ── SECTION TITLE ── */
+  .sec-title {
+    font-size: 10px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--azul); border-bottom: 1px solid var(--borda); padding-bottom: 7px; margin-bottom: 14px;
+  }
+  .section { margin-bottom: 32px; }
+
+  /* ── INTRO ── */
+  .intro-box {
+    background: white; border: 1px solid var(--borda); border-radius: 10px;
+    padding: 22px 24px; margin-bottom: 28px; line-height: 1.85; font-size: 14px;
+    color: var(--sec);
+  }
+  .intro-box p + p { margin-top: 10px; }
+  .intro-box strong { color: var(--texto); }
+
+  /* ── URGÊNCIA ── */
+  .urgencia {
+    background: var(--alerta-bg); border: 1px solid var(--alerta-borda);
+    border-left: 4px solid var(--alerta); border-radius: 8px;
+    padding: 16px 18px; margin-bottom: 28px;
+  }
+  .urgencia-titulo { font-size: 13px; font-weight: 500; color: var(--alerta); margin-bottom: 10px; }
+  .urgencia-row {
+    display: flex; justify-content: space-between; padding: 6px 0;
+    border-bottom: 1px solid var(--alerta-borda); font-size: 13px;
+  }
+  .urgencia-row:last-child { border-bottom: none; }
+  .urgencia-total {
+    display: flex; justify-content: space-between; padding: 10px 0 0;
+    font-size: 14px; font-weight: 500; color: var(--alerta);
+  }
+
+  /* ── DÍVIDA TOTAL ── */
+  .divida-hero {
+    background: var(--azul); color: white; border-radius: 10px;
+    padding: 20px 24px; margin-bottom: 14px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .dh-label { font-size: 13px; opacity: .8; }
+  .dh-sub   { font-size: 11px; opacity: .6; margin-top: 4px; }
+  .dh-num   { font-family: 'DM Serif Display', serif; font-size: 32px; }
+
+  /* ── INSCRICOES ── */
+  .inscricao-lista { list-style: none; }
+  .inscricao-item {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px solid var(--borda); gap: 12px; font-size: 13px;
+  }
+  .inscricao-item:last-child { border-bottom: none; }
+  .ins-esq { flex: 1; }
+  .ins-codigo { font-weight: 500; color: var(--texto); }
+  .ins-tipo   { font-size: 11px; color: var(--sec); margin-top: 2px; }
+  .ins-dir { text-align: right; }
+  .ins-val    { font-weight: 500; }
+  .ins-status { font-size: 11px; margin-top: 3px; }
+  .st-vermelho { color: var(--alerta); font-weight: 500; }
+  .st-amber    { color: var(--amber); font-weight: 500; }
+
+  /* ── RISCO ── */
+  .risco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .risco-card {
+    border-radius: 8px; padding: 13px 15px; font-size: 12px;
+    color: var(--texto); line-height: 1.6;
+  }
+  .rc-alto   { background: var(--alerta-bg); border: 1px solid var(--alerta-borda); border-left: 3px solid var(--alerta); }
+  .rc-medio  { background: var(--amber-bg); border: 1px solid var(--amber-borda); border-left: 3px solid #C47F2A; }
+  .rc-info   { background: var(--azul-bg); border: 1px solid #b5d4f4; border-left: 3px solid var(--azul-md); }
+  .rc-titulo { font-size: 12px; font-weight: 500; margin-bottom: 5px; }
+  .rc-alto .rc-titulo   { color: var(--alerta); }
+  .rc-medio .rc-titulo  { color: var(--amber); }
+  .rc-info .rc-titulo   { color: var(--azul-md); }
+
+  /* ── MULTAS POTENCIAIS ── */
+  .multa-tabela { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .multa-tabela th {
+    text-align: left; padding: 7px 10px; font-weight: 500; font-size: 11px;
+    color: var(--sec); border-bottom: 2px solid var(--borda); background: var(--cinza-bg);
+  }
+  .multa-tabela td { padding: 8px 10px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+  .multa-tabela tr:last-child td { border-bottom: none; }
+  .multa-tabela td:last-child { font-weight: 500; text-align: right; white-space: nowrap; }
+  .est-pill {
+    display: inline-block; font-size: 10px; background: var(--amber-bg);
+    color: var(--amber); border-radius: 3px; padding: 0 5px; font-weight: 500;
+    vertical-align: middle; margin-left: 3px;
+  }
+
+  /* ── ANTES/DEPOIS ── */
+  .intervencao {
+    background: var(--ok-bg); border: 1px solid var(--ok-borda);
+    border-left: 4px solid var(--ok); border-radius: 8px;
+    padding: 14px 18px; margin-bottom: 10px;
+  }
+  .int-titulo { font-size: 13px; font-weight: 500; color: var(--ok); margin-bottom: 8px; }
+  .int-item   { display: flex; gap: 10px; padding: 5px 0; font-size: 13px; color: var(--sec); }
+  .int-item::before { content: "✓"; color: var(--ok); font-weight: 500; flex-shrink: 0; }
+
+  /* ── OBRIGAÇÕES PÓS ── */
+  .obrig-box {
+    background: var(--amber-bg); border: 1px solid var(--amber-borda);
+    border-radius: 8px; overflow: hidden; margin-bottom: 10px;
+  }
+  .obrig-head {
+    padding: 9px 16px; font-size: 11px; font-weight: 500; color: var(--amber);
+    text-transform: uppercase; letter-spacing: .06em;
+    border-bottom: 1px solid var(--amber-borda);
+  }
+  .obrig-item {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px; padding: 9px 16px; border-bottom: 1px solid #f0dfc0; font-size: 13px;
+  }
+  .obrig-item:last-child { border-bottom: none; }
+  .obrig-desc { flex: 1; color: var(--sec); }
+  .obrig-desc strong { color: var(--texto); display: block; }
+  .obrig-val  { font-weight: 500; white-space: nowrap; }
+  .obrig-val.alert { color: var(--alerta); }
+  .obrig-val.ok    { color: var(--ok); font-size: 12px; font-weight: 400; }
+  .obrig-total {
+    display: flex; justify-content: space-between; padding: 10px 16px;
+    font-size: 13px; border-top: 1px solid var(--amber-borda);
+    background: rgba(0,0,0,.03);
+  }
+  .obrig-total span:last-child { font-weight: 500; }
+
+  /* ── BLOCO ── */
+  .bloco { border-radius: 8px; padding: 12px 15px; font-size: 12px; color: var(--sec); line-height: 1.7; margin-bottom: 10px; }
+  .bl-info  { background: var(--azul-bg); border-left: 3px solid var(--azul-md); }
+  .bl-ok    { background: var(--ok-bg); border-left: 3px solid var(--ok); }
+  .bl-warn  { background: var(--amber-bg); border-left: 3px solid #C47F2A; }
+  .bloco strong { color: var(--texto); }
+
+  /* ── HONORÁRIOS ── */
+  .hon-linha {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--borda); font-size: 13px;
+  }
+  .hon-linha:last-child { border-bottom: none; }
+  .hon-esq { flex: 1; }
+  .hon-titulo { font-weight: 500; }
+  .hon-desc   { font-size: 12px; color: var(--sec); margin-top: 2px; }
+  .hon-val    { font-weight: 500; white-space: nowrap; text-align: right; min-width: 90px; }
+  .hon-zero   { color: var(--ok); font-size: 12px; font-weight: 400; }
+
+  .sub-row {
+    display: flex; justify-content: space-between; padding: 9px 14px;
+    background: white; border: 1px solid var(--borda); border-radius: 6px;
+    margin-bottom: 6px; font-size: 13px;
+  }
+  .sub-row span:last-child { font-weight: 500; }
+  .desc-row {
+    display: flex; justify-content: space-between; padding: 9px 14px;
+    background: var(--amber-bg); border: 1px solid var(--amber-borda);
+    border-radius: 6px; margin-bottom: 6px; font-size: 13px; color: var(--amber);
+  }
+  .desc-row span:last-child { font-weight: 500; }
+  .total-hon {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 20px; background: var(--azul); border-radius: 8px;
+    color: white; margin-bottom: 8px;
+  }
+  .th-label { font-size: 13px; opacity: .8; }
+  .th-sub   { font-size: 11px; opacity: .6; margin-top: 2px; }
+  .th-num   { font-size: 26px; font-family: 'DM Serif Display', serif; }
+
+  /* ── PLANO MENSAL ── */
+  .plano-bloco { border: 1px solid var(--borda); border-radius: 8px; overflow: hidden; }
+  .plano-item  { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 16px; gap: 16px; }
+  .plano-item:first-child { background: var(--azul-bg); border-bottom: 1px solid var(--borda); }
+  .plano-item:last-child  { background: white; }
+  .plano-label { font-size: 13px; font-weight: 500; color: var(--azul); }
+  .plano-item:last-child .plano-label { color: var(--sec); }
+  .plano-sub   { font-size: 12px; color: var(--sec); margin-top: 4px; }
+  .plano-sub li { margin-left: 14px; font-size: 12px; }
+  .plano-val   { font-size: 18px; font-weight: 500; color: var(--azul); white-space: nowrap; }
+  .plano-item:last-child .plano-val { color: #444; font-size: 16px; }
+
+  /* ── CONDIÇÕES ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cond  { background: white; border: 1px solid var(--borda); border-radius: 8px; padding: 12px 14px; }
+  .cond .lbl { font-size: 11px; color: var(--sec); }
+  .cond .val { font-size: 13px; font-weight: 500; margin-top: 3px; }
+  .cond.urg  { border-left: 3px solid var(--alerta); }
+  .cond.urg .val { color: var(--alerta); }
+
+  /* ── FOOTER ── */
+  .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--borda); font-size: 11px; color: var(--sec); line-height: 1.6; }
+  .footer strong { color: var(--texto); }
+
+  hr { border: none; border-top: 1px solid var(--borda); margin: 22px 0; }
+
+  .nota-est {
+    font-size: 11px; background: var(--amber-bg); color: var(--amber);
+    border-radius: 4px; padding: 1px 6px; font-weight: 500;
+    vertical-align: middle; margin-left: 4px;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { padding: 24px 28px; }
+    .divida-hero, .total-hon, .urgencia { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ─── CABEÇALHO ─── -->
+<div class="header">
+  <div>
+    <div class="brand">RadéC Contabilidade</div>
+    <div class="brand-sub">Porto Alegre — RS</div>
+  </div>
+  <div class="doc-meta">
+    <strong>Relatório e Proposta de Regularização</strong>
+    22 de abril de 2026
+  </div>
+</div>
+
+<!-- ─── CLIENTE ─── -->
+<div class="cliente">
+  <div class="cliente-nome">Cristiane R. de Oliveira Processamento de Dados</div>
+  <div class="cliente-sub">CNPJ 08.727.888/0001-70 · Empresário Individual · Micro Empresa · Porto Alegre/RS</div>
+  <div class="tags">
+    <span class="tag tag-ok">CNPJ Ativo</span>
+    <span class="tag tag-alert">Dívida ativa protestada</span>
+    <span class="tag tag-alert">Declarações em atraso</span>
+    <span class="tag tag-warn">Lucro Presumido sem obrigações</span>
+    <span class="tag tag-blue">Intervenção iniciada em 22/04/2026</span>
+  </div>
+</div>
+
+<!-- ─── INTRODUÇÃO ─── -->
+<div class="section">
+  <div class="sec-title">Apresentação</div>
+  <div class="intro-box">
+    <p>Cristiane, este documento apresenta o diagnóstico completo da situação fiscal da tua empresa, o que foi feito até aqui e o que ainda precisa ser resolvido. Preparamos tudo com os dados reais consultados diretamente na Procuradoria-Geral da Fazenda Nacional e na Receita Federal.</p>
+    <p>A empresa acumulou pendências ao longo de vários anos — declarações não entregues, dívidas inscritas e protestadas, e obrigações do regime fiscal atual que não foram cumpridas. <strong>Deixar essa situação sem tratamento gera consequências crescentes</strong>: multas automáticas, execução judicial, impossibilidade de emitir certidões e risco de bloqueio do CNPJ.</p>
+    <p>A boa notícia: com os parcelamentos que formalizamos hoje e um plano estruturado de regularização, é possível colocar tudo em ordem. Este relatório mostra exatamente o que está em jogo, o que já foi feito e o que vamos fazer nos próximos meses.</p>
+  </div>
+</div>
+
+<!-- ─── URGÊNCIA ─── -->
+<div class="section">
+  <div class="sec-title">⚠ Ação imediata — prazo 30/04/2026</div>
+  <div class="urgencia">
+    <div class="urgencia-titulo">Os parcelamentos negociados hoje precisam ter a primeira guia paga até 30/04/2026. Sem esse pagamento, os acordos são cancelados e a dívida volta ao status anterior — incluindo o risco de execução judicial.</div>
+    <div class="urgencia-row"><span>Guia PGFN — Simples Nacional (entrada do parcelamento)</span><span style="color:var(--alerta);font-weight:500">R$ 399,21</span></div>
+    <div class="urgencia-row"><span>Guia PGFN — Previdenciário (1ª parcela)</span><span style="color:var(--alerta);font-weight:500">R$ 554,50</span></div>
+    <div class="urgencia-total"><span>Total a pagar até 30/04/2026</span><span>R$ 953,71</span></div>
+  </div>
+</div>
+
+<!-- ─── DIMENSÃO DA DÍVIDA ─── -->
+<div class="section">
+  <div class="sec-title">1 · A dimensão da dívida — o que encontramos na Procuradoria</div>
+
+  <div class="divida-hero">
+    <div>
+      <div class="dh-label">Total da dívida ativa da União — confirmado na PGFN em 22/04/2026</div>
+      <div class="dh-sub">5 inscrições ativas · Previdenciária + Simples Nacional · verificado no portal Regularize</div>
+    </div>
+    <div class="dh-num">R$ 8.428,21</div>
+  </div>
+
+  <ul class="inscricao-lista">
+    <li class="inscricao-item">
+      <div class="ins-esq">
+        <div class="ins-codigo">00 4 20 016247-39</div>
+        <div class="ins-tipo">Simples Nacional · inscrita em 25/05/2020 · já protestada</div>
+      </div>
+      <div class="ins-dir">
+        <div class="ins-val">R$ 3.992,17</div>
+        <div class="ins-status st-vermelho">A ser ajuizada</div>
+      </div>
+    </li>
+    <li class="inscricao-item">
+      <div class="ins-esq">
+        <div class="ins-codigo">00 4 24 048613-05</div>
+        <div class="ins-tipo">Previdenciária · contribuições de segurados · inscrita em 26/02/2024</div>
+      </div>
+      <div class="ins-dir">
+        <div class="ins-val">R$ 1.595,99</div>
+        <div class="ins-status st-vermelho">Ativa em cobrança</div>
+      </div>
+    </li>
+    <li class="inscricao-item">
+      <div class="ins-esq">
+        <div class="ins-codigo">00 4 26 023264-81</div>
+        <div class="ins-tipo">Previdenciária · contribuições de segurados · inscrita em 26/01/2026</div>
+      </div>
+      <div class="ins-dir">
+        <div class="ins-val">R$ 1.458,76</div>
+        <div class="ins-status st-amber">Ativa a ser cobrada</div>
+      </div>
+    </li>
+    <li class="inscricao-item">
+      <div class="ins-esq">
+        <div class="ins-codigo">00 4 26 023265-62</div>
+        <div class="ins-tipo">Previdenciária · contribuição do empregador · inscrita em 26/01/2026</div>
+      </div>
+      <div class="ins-dir">
+        <div class="ins-val">R$ 1.227,87</div>
+        <div class="ins-status st-amber">Ativa a ser cobrada</div>
+      </div>
+    </li>
+    <li class="inscricao-item">
+      <div class="ins-esq">
+        <div class="ins-codigo">00 4 26 023266-43</div>
+        <div class="ins-tipo">Previdenciária · contribuição social educação · inscrita em 26/01/2026</div>
+      </div>
+      <div class="ins-dir">
+        <div class="ins-val">R$ 153,42</div>
+        <div class="ins-status st-amber">Ativa a ser cobrada</div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="bloco bl-info" style="margin-top:12px">
+    <strong>O que significa "a ser ajuizada":</strong> a inscrição do Simples (R$ 3.992) está na fase anterior à execução fiscal judicial. Se não houver parcelamento ou quitação, a PGFN ingressa com ação judicial e pode pedir penhora de bens, bloqueio de contas e restrições ao CNPJ. Os dois protestos já em cartório são parte desse processo de cobrança.
+  </div>
+</div>
+
+<!-- ─── O QUE ACONTECE SEM INTERVENÇÃO ─── -->
+<div class="section">
+  <div class="sec-title">2 · Riscos — o que acontece sem tratamento</div>
+
+  <div class="risco-grid">
+    <div class="risco-card rc-alto">
+      <div class="rc-titulo">Execução fiscal</div>
+      A inscrição do Simples (R$ 3.992) pode ser ajuizada a qualquer momento. Com a execução em curso: penhora de bens, bloqueio de contas via Sisbajud e restrições ao CPF da sócia.
+    </div>
+    <div class="risco-card rc-alto">
+      <div class="rc-titulo">Protesto permanente</div>
+      Duas inscrições já protestadas no 2º Tabelionato de POA. Com o protesto ativo: impossibilidade de crédito bancário, restrições em cadastros de inadimplência e dificuldade de relacionamento com parceiros e fornecedores.
+    </div>
+    <div class="risco-card rc-alto">
+      <div class="rc-titulo">Multas por omissão de declarações</div>
+      Empresa com Lucro Presumido desde jan/2024 sem entregar DCTF-BF mensal e ECF anual. Cada mês sem entrega gera multa automática. O sistema da Receita lança essas multas de ofício sem aviso prévio.
+    </div>
+    <div class="risco-card rc-alto">
+      <div class="rc-titulo">Impedimento de certidão</div>
+      Enquanto houver pendências — dívida ativa, declarações omissas ou débitos em aberto — é impossível emitir Certidão Negativa de Débitos. Sem CND: impossível participar de licitações, abrir conta PJ, refinanciar dívidas ou celebrar contratos que exijam regularidade fiscal.
+    </div>
+    <div class="risco-card rc-medio">
+      <div class="rc-titulo">DCTFWeb em atraso</div>
+      14 períodos de 2025 e 2026 marcados como omissos na Receita Federal. Enquanto não entregues, a situação é de irregularidade ativa que impede certidão e pode gerar novos lançamentos de ofício.
+    </div>
+    <div class="risco-card rc-medio">
+      <div class="rc-titulo">CNPJ em situação irregular</div>
+      A acumulação de pendências sem tratamento pode levar à suspensão do CNPJ. Uma empresa suspensa ou cancelada perde todos os seus direitos fiscais e pode impossibilitar a regularização futura, exigindo baixa e reabertura.
+    </div>
+  </div>
+</div>
+
+<!-- ─── MULTAS QUE SERÃO GERADAS ─── -->
+<div class="section">
+  <div class="sec-title">3 · Multas geradas e potenciais — todos os valores são estimativas <span class="nota-est">ESTIMATIVA</span></div>
+
+  <div class="bloco bl-warn">
+    <strong>Atenção:</strong> os valores abaixo são <strong>estimativas baseadas nas regras vigentes</strong>. Os valores exatos de multas com juros SELIC acumulados só são conhecidos no momento da emissão de cada guia. Nenhum número abaixo é fixo.
+  </div>
+
+  <table class="multa-tabela">
+    <thead>
+      <tr>
+        <th style="width:40%">Origem da multa</th>
+        <th>Base / critério</th>
+        <th style="text-align:right">Estimativa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Multa MAED — DCTFWeb</strong><br><span style="color:var(--sec);font-size:11px">Lançamento de ofício nº 50000118692340</span></td>
+        <td>R$ 250 principal + juros SELIC desde abr/2023</td>
+        <td>≈ R$ 341 + juros <span class="est-pill">est.</span></td>
+      </tr>
+      <tr>
+        <td><strong>Declarações DCTF-BF em atraso</strong><br><span style="color:var(--sec);font-size:11px">24 declarações mensais de 2024 e 2025</span></td>
+        <td>R$ 50/declaração · à vista com desconto de 50%: R$ 25 cada</td>
+        <td>R$ 600 c/ desconto <span class="est-pill">est.</span></td>
+      </tr>
+      <tr>
+        <td><strong>ECF — Escrituração Contábil Fiscal</strong><br><span style="color:var(--sec);font-size:11px">Exercícios 2024 e 2025 · entrega anual · julho</span></td>
+        <td>Multa por entrega em atraso por exercício</td>
+        <td>A calcular <span class="est-pill">est.</span></td>
+      </tr>
+      <tr>
+        <td><strong>DCTFWeb omissas 2025/2026</strong><br><span style="color:var(--sec);font-size:11px">14 períodos marcados na Receita Federal</span></td>
+        <td>Depende de apuração com folha de pagamento · pode ser reduzido a 2 declarações se folha zerada</td>
+        <td>A confirmar <span class="est-pill">est.</span></td>
+      </tr>
+      <tr>
+        <td><strong>Juros SELIC sobre débitos SIEF (48 itens)</strong><br><span style="color:var(--sec);font-size:11px">Contribuições previdenciárias 2024</span></td>
+        <td>Saldo devedor já em aberto + SELIC mensal acumulada</td>
+        <td>≈ R$ 250–300 <span class="est-pill">est.</span></td>
+      </tr>
+      <tr style="background:var(--amber-bg)">
+        <td colspan="2"><strong>Total estimado de multas e encargos adicionais</strong><br><span style="font-size:11px;color:var(--amber)">Considerando o desconto de 50% nas declarações em atraso — pagamento à vista</span></td>
+        <td style="color:var(--amber)"><strong>≈ R$ 1.200 – 1.600</strong><br><span class="est-pill">est.</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ─── O QUE JÁ FOI FEITO ─── -->
+<div class="section">
+  <div class="sec-title">4 · O que foi feito hoje — intervenção RadéC em 22/04/2026</div>
+
+  <div class="intervencao">
+    <div class="int-titulo">Parcelamentos formalizados — dívida de R$ 8.428 estabilizada</div>
+    <div class="int-item">Simples Nacional (R$ 3.992): 1 entrada de R$ 399,21 + 11 parcelas de R$ 326,63</div>
+    <div class="int-item">Previdenciário (R$ 4.436): 8 parcelas de R$ 554,50 — sem entrada</div>
+    <div class="int-item">Dívida parada no tempo: os valores foram congelados na data de consolidação, sem crescimento adicional enquanto o parcelamento estiver ativo</div>
+    <div class="int-item">Risco de ajuizamento suspenso: enquanto o parcelamento estiver em dia, a PGFN não pode ajuizar a execução fiscal</div>
+  </div>
+
+  <div class="bloco bl-warn">
+    <strong>O protesto não é cancelado automaticamente pelo parcelamento.</strong> Após pagar a primeira guia e ter o parcelamento deferido, é necessário ir ao 2º Tabelionato de Protestos (Rua dos Andradas, 1234 — fone 51 3027-3500) ou acessar o CENPROT (site.cenprotnacional.org.br) para quitar os emolumentos do tabelionato. Só então o protesto é cancelado.
+  </div>
+</div>
+
+<!-- ─── OBRIGAÇÕES PÓS-INTERVENÇÃO ─── -->
+<div class="section">
+  <div class="sec-title">5 · Obrigações tributárias restantes — custos da empresa ao fisco</div>
+
+  <div class="bloco bl-info">
+    Estes valores são obrigações da empresa com o governo — não são honorários de serviço. A RadéC emite todas as guias, orienta o pagamento e controla os vencimentos.
+  </div>
+
+  <div class="obrig-box">
+    <div class="obrig-head">O que a empresa ainda precisa pagar ao fisco</div>
+
+    <div class="obrig-item">
+      <div class="obrig-desc">
+        <strong>Entrada parcelamento Simples Nacional</strong>
+        Vencimento 30/04/2026 · guia já emitida
+      </div>
+      <div class="obrig-val alert">R$ 399,21</div>
+    </div>
+
+    <div class="obrig-item">
+      <div class="obrig-desc">
+        <strong>1ª parcela parcelamento Previdenciário</strong>
+        Vencimento 30/04/2026 · guia já emitida
+      </div>
+      <div class="obrig-val alert">R$ 554,50</div>
+    </div>
+
+    <div class="obrig-item">
+      <div class="obrig-desc">
+        <strong>Quitação débitos previdenciários 2024 — 48 itens</strong>
+        Valores abaixo do mínimo de parcelamento · guia unificada a ser emitida pela RadéC
+      </div>
+      <div class="obrig-val">≈ R$ 250–300 <span class="nota-est">est.</span></div>
+    </div>
+
+    <div class="obrig-item">
+      <div class="obrig-desc">
+        <strong>Multa administrativa Receita Federal — MAED</strong>
+        Lançamento de ofício vencido desde abr/2023 · juros SELIC acumulados
+      </div>
+      <div class="obrig-val">≈ R$ 341 + juros <span class="nota-est">est.</span></div>
+    </div>
+
+    <div class="obrig-item">
+      <div class="obrig-desc">
+        <strong>Multas por declarações DCTF-BF em atraso (2024–2025)</strong>
+        24 declarações × R$ 50 = R$ 1.200 — <span style="color:var(--ok);font-weight:500">com denúncia espontânea e pagamento à vista: 50% de desconto → R$ 600</span><br>
+        Alternativa: incluir no parcelamento com os demais débitos de menor valor
+      </div>
+      <div class="obrig-val">R$ 600 c/ desc. <span class="nota-est">est.</span></div>
+    </div>
+
+    <div class="obrig-item">
+      <div class="obrig-desc">
+        <strong>Emolumentos para cancelamento do protesto</strong>
+        2º Tabelionato de Protestos de Porto Alegre · (51) 3027-3500 · valor a ser consultado
+      </div>
+      <div class="obrig-val">A consultar</div>
+    </div>
+
+    <div class="obrig-total">
+      <span>Estimativa total de obrigações tributárias (exceto parcelas futuras)</span>
+      <span>≈ R$ 2.145 – 2.200 <span class="nota-est">est.</span></span>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- ─── HONORÁRIOS ─── -->
+<div class="section">
+  <div class="sec-title">6 · Honorários RadéC — pacote de regularização</div>
+
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">Diagnóstico fiscal completo</div>
+      <div class="hon-desc">Mapeamento total realizado em 22/04/2026 — incluso no pacote</div>
+    </div>
+    <div class="hon-val hon-zero">incluso ✓</div>
+  </div>
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">Negociação e formalização dos parcelamentos PGFN</div>
+      <div class="hon-desc">2 acordos executados em 22/04/2026 · Simples Nacional + Previdenciário</div>
+    </div>
+    <div class="hon-val">R$ 800,00</div>
+  </div>
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">PGDAS-D — 24 períodos (jan/2022 a dez/2023)</div>
+      <div class="hon-desc">Declarações zeradas do Simples · período em que a empresa estava optante · R$ 70/período</div>
+    </div>
+    <div class="hon-val">R$ 1.680,00</div>
+  </div>
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">DEFIS — 3 exercícios</div>
+      <div class="hon-desc">Declaração anual do Simples Nacional · exercícios 2021, 2022 e 2023 · R$ 70/declaração</div>
+    </div>
+    <div class="hon-val">R$ 210,00</div>
+  </div>
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">Regularização fiscal 2024–2025 — Lucro Presumido</div>
+      <div class="hon-desc">DCTF-BF mensal (24 declarações) + ECF anual dos exercícios 2024 e 2025 · empresa sem faturamento e sem movimento</div>
+    </div>
+    <div class="hon-val">R$ 700,00</div>
+  </div>
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">Declarações previdenciárias em atraso</div>
+      <div class="hon-desc">Regularização das entregas de encargos trabalhistas pendentes · 2 competências</div>
+    </div>
+    <div class="hon-val">R$ 480,00</div>
+  </div>
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">Gestão e quitação débitos previdenciários 2024 — 48 itens</div>
+      <div class="hon-desc">Emissão de guia unificada · coordenação do pagamento junto à Receita</div>
+    </div>
+    <div class="hon-val">R$ 490,00</div>
+  </div>
+  <div class="hon-linha">
+    <div class="hon-esq">
+      <div class="hon-titulo">Emissão de guia — multa administrativa Receita Federal</div>
+      <div class="hon-desc">Lançamento de ofício desde 2023 · incluso no pacote</div>
+    </div>
+    <div class="hon-val hon-zero">incluso ✓</div>
+  </div>
+
+  <div style="margin-top:14px">
+    <div class="sub-row"><span>Valor de tabela dos serviços</span><span>R$ 4.360,00</span></div>
+    <div class="desc-row"><span>Desconto de pacote fechado</span><span>− R$ 700,00</span></div>
+    <div class="total-hon">
+      <div>
+        <div class="th-label">Total honorários RadéC</div>
+        <div class="th-sub">Valor fechado · parcelamento dos honorários a combinar</div>
+      </div>
+      <div class="th-num">R$ 3.660,00</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PLANO MENSAL ─── -->
+<div class="section">
+  <div class="sec-title">7 · Plano de manutenção mensal — o que está incluído</div>
+
+  <div class="plano-bloco">
+    <div class="plano-item">
+      <div>
+        <div class="plano-label">Fase de regularização — até janeiro de 2027</div>
+        <ul class="plano-sub" style="margin-top:6px">
+          <li>Controle e monitoramento dos 2 parcelamentos PGFN</li>
+          <li>Alertas mensais de vencimento das parcelas</li>
+          <li>Entrega da DCTF-BF mensal do Lucro Presumido</li>
+          <li>Monitoramento do e-CAC e da caixa postal da empresa</li>
+          <li>Suporte em caso de notificações, cobranças ou novas pendências</li>
+          <li>Entrega da ECF 2026 (exercício 2025) dentro do prazo (jul/2026)</li>
+          <li>Orientação contínua e comunicação durante todo o processo</li>
+        </ul>
+      </div>
+      <div class="plano-val">R$ 620<span style="font-size:13px;font-family:'DM Sans',sans-serif;font-weight:400">/mês</span></div>
+    </div>
+    <div class="plano-item">
+      <div>
+        <div class="plano-label">Manutenção simples — a partir de fevereiro de 2027</div>
+        <ul class="plano-sub" style="margin-top:6px">
+          <li>Empresa inativa no Simples Nacional sem movimento e sem pró-labore</li>
+          <li>Declarações mínimas de rotina para manter o CNPJ em situação regular</li>
+          <li>Manutenção da regularidade necessária para continuidade de plano de saúde vinculado ao CNPJ</li>
+          <li>Monitoramento básico de e-CAC</li>
+          <li>Possibilidade de renegociar escopo se a empresa voltar a ter atividade</li>
+        </ul>
+      </div>
+      <div class="plano-val">R$ 350<span style="font-size:13px;font-family:'DM Sans',sans-serif;font-weight:400">/mês</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONDIÇÕES ─── -->
+<div class="section">
+  <div class="sec-title">8 · Condições e próximos passos</div>
+  <div class="grid2">
+    <div class="cond urg">
+      <div class="lbl">Prioridade imediata</div>
+      <div class="val">Pagar R$ 953,71 até 30/04/2026</div>
+    </div>
+    <div class="cond">
+      <div class="lbl">Para iniciar os trabalhos</div>
+      <div class="val">Procuração no e-CAC + retorno sobre folha/empregados</div>
+    </div>
+    <div class="cond">
+      <div class="lbl">Forma de pagamento dos honorários</div>
+      <div class="val">A combinar — entrada + parcelado em até 3×</div>
+    </div>
+    <div class="cond">
+      <div class="lbl">Validade desta proposta</div>
+      <div class="val">15 dias úteis</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<div class="footer">
+  Os valores de multas e encargos indicados neste documento são estimativas baseadas nas regras vigentes em 22/04/2026. Os valores exatos são apurados no momento da emissão de cada guia. Pendências adicionais identificadas durante os trabalhos serão apresentadas e orçadas antes de qualquer execução. Os valores de guias, parcelamentos e multas ao fisco são obrigações da empresa e não fazem parte dos honorários.<br><br>
+  <strong>RadéC Contabilidade</strong> — Porto Alegre, RS &nbsp;·&nbsp; Sávio &nbsp;·&nbsp; (51) 99518-3878
+</div>
+
+</div>
+</body>
+</html>
